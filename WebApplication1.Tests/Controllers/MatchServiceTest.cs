@@ -138,17 +138,20 @@ public class MatchServiceTest
         result.Should().Be("H;");
     }
 
-    [Test]
-    public void awaycancel_with_empty_match_result()
+
+
+    [TestCase("", MatchEvent.HomeCancel)]
+    [TestCase("", MatchEvent.AwayCancel)]
+    [TestCase("AH", MatchEvent.AwayCancel)]
+    [TestCase("HA", MatchEvent.HomeCancel)]
+    public void homecancel_with_unexpected_condition(string initialResult, MatchEvent homeCancel)
     {
         // Arrange
         var matchId = 1;
-        var initialResult = "";
         _matchRepository.GetMatchResultById(matchId).Returns(initialResult);
 
-        // Act
-        _matchService.UpdateMatchResult(matchId, MatchEvent.AwayCancel);
-        
-        
+        // Assert
+        Assert.Throws<UpdateMatchResultException>(() =>
+            _matchService.UpdateMatchResult(matchId, homeCancel));
     }
 }
