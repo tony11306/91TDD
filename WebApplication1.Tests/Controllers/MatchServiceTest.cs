@@ -1,5 +1,6 @@
 using FluentAssertions;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using NUnit.Framework;
 using WebApplication1.Controllers;
 using WebApplication1.Models;
@@ -135,5 +136,19 @@ public class MatchServiceTest
         _matchRepository.Received(1).GetMatchResultById(matchId);
         _matchRepository.Received(1).UpdateMatchResult(matchId, "H;");
         result.Should().Be("H;");
+    }
+
+    [Test]
+    public void awaycancel_with_empty_match_result()
+    {
+        // Arrange
+        var matchId = 1;
+        var initialResult = "";
+        _matchRepository.GetMatchResultById(matchId).Returns(initialResult);
+
+        // Act
+        _matchService.UpdateMatchResult(matchId, MatchEvent.AwayCancel);
+        
+        
     }
 }

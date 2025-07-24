@@ -32,6 +32,10 @@ public class MatchService(IMatchRepository matchRepository) : IMatchService
                 // remove last 'H' before ';'
                 matchResult = matchResult[..^2] + ';';
             }
+            else
+            {
+                throw new UpdateMatchResultException(matchEvent, matchResult);
+            }
         } else if (matchEvent == MatchEvent.AwayCancel)
         {
             if (matchResult.Length > 0 && matchResult[^1] == 'A')
@@ -42,9 +46,21 @@ public class MatchService(IMatchRepository matchRepository) : IMatchService
                 // remove last 'A' before ';'
                 matchResult = matchResult[..^2] + ';';
             }
+            else
+            {
+                throw new UpdateMatchResultException(matchEvent, matchResult);
+            }
         }
 
         matchRepository.UpdateMatchResult(matchId, matchResult);
         return matchResult;
+    }
+}
+
+public class UpdateMatchResultException : Exception
+{
+    public UpdateMatchResultException(MatchEvent matchEvent, string originalResult)
+        : base($"{matchEvent.ToString()}: {originalResult}")
+    {
     }
 }
