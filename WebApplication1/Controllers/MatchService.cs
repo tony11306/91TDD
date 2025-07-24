@@ -5,6 +5,7 @@ namespace WebApplication1.Controllers;
 public interface IMatchService
 {
     string UpdateMatchResult(int matchId, MatchEvent matchEvent);
+    string GetDisplayResult(string matchResult);
 }
 
 public class MatchService(IMatchRepository matchRepository) : IMatchService
@@ -54,6 +55,17 @@ public class MatchService(IMatchRepository matchRepository) : IMatchService
 
         matchRepository.UpdateMatchResult(matchId, matchResult);
         return matchResult;
+    }
+
+    public string GetDisplayResult(string matchResult)
+    {
+        // the format should be HomeScore : AwayScore (First half)
+        var homeScore = matchResult.Count(c => c == 'H');
+        var awayScore = matchResult.Count(c => c == 'A');
+        // if matchResult contains ; then it is a second half
+        var isSecondHalf = matchResult.Contains(';');
+
+        return $"{homeScore}:{awayScore} {(isSecondHalf ? "(Second Half)" : "(First Half)")}";
     }
 }
 

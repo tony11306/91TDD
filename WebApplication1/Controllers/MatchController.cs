@@ -9,18 +9,7 @@ public class MatchController(IMatchService matchService) : Controller
     {
         var matchResult = matchService.UpdateMatchResult(matchId, matchEvent);
 
-        return GetDisplayResult(matchResult);
-    }
-
-    private static string GetDisplayResult(string matchResult)
-    {
-        // the format should be HomeScore : AwayScore (First half)
-        var homeScore = matchResult.Count(c => c == 'H');
-        var awayScore = matchResult.Count(c => c == 'A');
-        // if matchResult contains ; then it is a second half
-        var isSecondHalf = matchResult.Contains(';');
-
-        return $"{homeScore}:{awayScore} {(isSecondHalf ? " (Second half)" : " (First half)")}";
+        return matchService.GetDisplayResult(matchResult);
     }
 }
 

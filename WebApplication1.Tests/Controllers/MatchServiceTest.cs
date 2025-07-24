@@ -138,8 +138,6 @@ public class MatchServiceTest
         result.Should().Be("H;");
     }
 
-
-
     [TestCase("", MatchEvent.HomeCancel)]
     [TestCase("", MatchEvent.AwayCancel)]
     [TestCase("AH", MatchEvent.AwayCancel)]
@@ -153,5 +151,16 @@ public class MatchServiceTest
         // Assert
         Assert.Throws<UpdateMatchResultException>(() =>
             _matchService.UpdateMatchResult(matchId, homeCancel));
+    }
+
+    [TestCase("", "0:0 (First Half)")]
+    [TestCase("H", "1:0 (First Half)")]
+    [TestCase("A", "0:1 (First Half)")]
+    [TestCase("HA;", "1:1 (Second Half)")]
+    [TestCase("HA;H", "2:1 (Second Half)")]
+    public void get_display_result(string matchResult, string expected)
+    {
+        var displayResult = _matchService.GetDisplayResult(matchResult);
+        displayResult.Should().Be(expected);
     }
 }
