@@ -3,19 +3,11 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers;
 
-public class MatchController : Controller
+public class MatchController(IMatchService matchService) : Controller
 {
     public string UpdateMatchResult(int matchId, MatchEvent matchEvent)
     {
-        IMatchRepository matchRepository = new MatchRepository();
-        var matchResult = matchRepository.GetMatchResultById(matchId);
-
-        if (matchEvent == MatchEvent.HomeGoal)
-        {
-            matchResult += 'H';
-        }
-        
-        matchRepository.UpdateMatchResult(matchId, matchResult);
+        var matchResult = matchService.UpdateMatchResult(matchId, matchEvent);
 
         return GetDisplayResult(matchResult);
     }
