@@ -8,7 +8,5 @@
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2a4aae02_002D5faf_002D4e1c_002Dae9d_002Dbe8a0ccea235/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="MatchServiceTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::296C921E-7C56-43A2-B706-D425D7AB3166::net9.0::WebApplication1.Tests.Controllers.MatchServiceTest&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
