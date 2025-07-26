@@ -6,50 +6,52 @@ using System.Linq;
 
 public class MatchResult(string result)
 {
+    private string _result = result;
+
     public void NextPeriod()
     {
-        result += ';';
+        _result += ';';
     }
 
     public string GetDisplayString()
     {
-        var homeScore = result.Count(c => c == 'H');
-        var awayScore = result.Count(c => c == 'A');
-        var period = result.Contains(';') ? "Second Half" : "First Half";
+        var homeScore = _result.Count(c => c == 'H');
+        var awayScore = _result.Count(c => c == 'A');
+        var period = _result.Contains(';') ? "Second Half" : "First Half";
 
         return $"{homeScore}:{awayScore} ({period})";
     }
 
     public override string ToString()
     {
-        return result;
+        return _result;
     }
 
     public void AddGoal(char c)
     {
-        result += c;
+        _result += c;
     }
 
     public void CancelGoal(char c)
     {
-        if (result.EndsWith(';'))
+        if (_result.EndsWith(';'))
         {
-            if (result[..^1].EndsWith(c))
+            if (_result[..^1].EndsWith(c))
             {
-                result = result[..^2] + ';';
+                _result = _result[..^2] + ';';
             }
             else
             {
-                throw new UpdateMatchResultException(c == 'H' ? MatchEvent.HomeCancel : MatchEvent.AwayCancel, result);
+                throw new UpdateMatchResultException(c == 'H' ? MatchEvent.HomeCancel : MatchEvent.AwayCancel, _result);
             }
         } 
-        else if(result.EndsWith(c))
+        else if(_result.EndsWith(c))
         {
-            result = result[..^1];
+            _result = _result[..^1];
         }
         else
         {
-            throw new UpdateMatchResultException(c == 'H' ? MatchEvent.HomeCancel : MatchEvent.AwayCancel, result);
+            throw new UpdateMatchResultException(c == 'H' ? MatchEvent.HomeCancel : MatchEvent.AwayCancel, _result);
         }
     }
 }
